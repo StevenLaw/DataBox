@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBoxLibrary", "DataBoxLibrary\DataBoxLibrary.csproj", "{433640D8-087D-4D53-9672-4C5B5E105128}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBoxTesting", "DataBoxTesting\DataBoxTesting.csproj", "{F1D20441-FC7B-4040-A0D0-8640B793D01B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBox", "DataBox\DataBox.csproj", "{991FB133-9F70-4B5D-9897-69E45AF1EAEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{433640D8-087D-4D53-9672-4C5B5E105128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{433640D8-087D-4D53-9672-4C5B5E105128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{433640D8-087D-4D53-9672-4C5B5E105128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{433640D8-087D-4D53-9672-4C5B5E105128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D20441-FC7B-4040-A0D0-8640B793D01B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D20441-FC7B-4040-A0D0-8640B793D01B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D20441-FC7B-4040-A0D0-8640B793D01B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D20441-FC7B-4040-A0D0-8640B793D01B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{991FB133-9F70-4B5D-9897-69E45AF1EAEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991FB133-9F70-4B5D-9897-69E45AF1EAEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991FB133-9F70-4B5D-9897-69E45AF1EAEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991FB133-9F70-4B5D-9897-69E45AF1EAEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

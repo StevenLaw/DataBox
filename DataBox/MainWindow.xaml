@@ -1,0 +1,96 @@
+﻿<Window x:Class="DataBox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <RoutedUICommand x:Key="CommandBinding_Exit" Text="Exit"/>
+        <RoutedUICommand x:Key="CommandBinding_Add" Text="Add"/>
+        <RoutedUICommand x:Key="CommandBinding_Edit" Text="Edit"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="CommandBinding_Close" CanExecute="CommandBinding_CanExecute_Close" />
+        <CommandBinding Command="Open" Executed="CommandBinding_Open" />
+        <CommandBinding Command="Save" Executed="CommandBinding_Save" CanExecute="CommandBinding_CanExecute_Save" />
+        <CommandBinding Command="SaveAs" Executed="CommandBinding_SaveAs" />
+        <CommandBinding Command="Cut" Executed="CommandBinding_Cut"/>
+        <CommandBinding Command="Copy" Executed="CommandBinding_Copy"/>
+        <CommandBinding Command="Paste" Executed="CommandBinding_Paste"/>
+        <CommandBinding Command="Delete" Executed="CommandBinding_Delete"/>
+        <CommandBinding Command="{StaticResource CommandBinding_Exit}" Executed="CommandBinding_Exit" />
+        <CommandBinding Command="{StaticResource CommandBinding_Add}" Executed="CommandBinding_Add" />
+        <CommandBinding Command="{StaticResource CommandBinding_Edit}" Executed="CommandBinding_Edit" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
+        <KeyBinding Key="S" Modifiers="Control+Shift" Command="SaveAs"/>
+        <KeyBinding Key="Q" Modifiers="Control" Command="{StaticResource CommandBinding_Exit}" />
+    </Window.InputBindings>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" Command="New" InputGestureText="Ctrl+N"/>
+                    <MenuItem Header="_Open" Command="Open" InputGestureText="Ctrl+O" />
+                    <MenuItem Header="_Close" Command="Close" InputGestureText="Ctrl+W" />
+                    <Separator/>
+                    <MenuItem Header="_Save" Command="Save" InputGestureText="Ctrl+S" />
+                    <MenuItem Header="Save _As" Command="SaveAs" InputGestureText="Ctrl+Shift+S" />
+                    <Separator/>
+                    <MenuItem Header="E_xit" Command="{StaticResource CommandBinding_Exit}" InputGestureText="Ctrl+Q" />
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="_Add" Command="{StaticResource CommandBinding_Add}" InputGestureText="" />
+                    <MenuItem Header="_Edit" Command="{StaticResource CommandBinding_Edit}" InputGestureText="" />
+                    <MenuItem Header="_Delete" Command="Delete" InputGestureText="" />
+                    <Separator/>
+                    <MenuItem Header="Cut" Command="Cut" InputGestureText="Ctrl+X" />
+                    <MenuItem Header="Copy" Command="Copy" InputGestureText="Ctrl+C" />
+                    <MenuItem Header="Paste" Command="Paste" InputGestureText="Ctrl+V" />
+                </MenuItem>
+                <MenuItem Header="_View" RenderTransformOrigin="0.5,0.5">
+                    <MenuItem x:Name="miShowStatusBar" Header="Show Status Bar" IsCheckable="True" IsChecked="True" Click="miShowStatusBar_Click"/>
+                    <MenuItem x:Name="miShowFullPath" Header="Show Full Path" IsCheckable="True" IsChecked="True" Click="miShowFullPath_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About"/>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray>
+                <ToolBar>
+
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
+        <StatusBar x:Name="sbStatus" DockPanel.Dock="Bottom">
+            <Image x:Name="imgStatus" Height="16" Width="16" />
+            <Separator/>
+            <Label x:Name="lblStatus" Content=""/>
+        </StatusBar>
+        <ScrollViewer>
+            <ItemsControl>
+                <!--<ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>-->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Label Content="{Binding}"/>
+                            <TextBox/>
+                            <TextBlock Height="50" />
+                        </StackPanel>
+                        <!--<Label Content="{Binding}" />-->
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <system:String>Test</system:String>
+                <system:String>Test</system:String>
+                <system:String>Test</system:String>
+                <system:String>Test</system:String>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
