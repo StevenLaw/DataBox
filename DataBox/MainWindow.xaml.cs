@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using DataBox.UserControls;
+using DataBoxLibrary.DataModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,15 @@ namespace DataBox
         public MainWindow()
         {
             InitializeComponent();
+
+            //LinkEntry entry1 = new LinkEntry("Test entry", "This is a test entry.");
+            //entry1.Links.Add(new LinkItem("Test Link", "http://Google.com"));
+            //entry1.Links.Add(new LinkItem("This is another link", "http://stackoverflow.com"));
+            //sbMainView.Children.Add(new LinkItemControl(entry1));
+
+            //LinkEntry entry2 = new LinkEntry("Another entry", "This is another entry.");
+            //entry2.Links.Add(new LinkItem("Another Link", "http://youtube.com"));
+            //sbMainView.Children.Add(new LinkItemControl(entry2));
         }
 
         private void SetChangeMade(bool value)
@@ -87,6 +98,14 @@ namespace DataBox
                         "The selected file was not the correct format.",
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
+                else
+                {
+                    foreach (Entry entry in databox.Entries)
+                    {
+                        if (entry is LinkEntry)
+                            sbMainView.Children.Add(new LinkItemControl((LinkEntry)entry));
+                    }
+                }
             }
         }
 

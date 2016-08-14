@@ -57,6 +57,10 @@
     <Compile Include="PasswordDialogue.xaml.cs">
       <DependentUpon>PasswordDialogue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\LinkCommand.cs" />
+    <Compile Include="UserControls\LinkItemControl.xaml.cs">
+      <DependentUpon>LinkItemControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +74,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PasswordDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\LinkItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

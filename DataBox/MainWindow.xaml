@@ -69,28 +69,15 @@
             <Separator/>
             <Label x:Name="lblStatus" Content=""/>
         </StatusBar>
-        <ScrollViewer>
-            <ItemsControl>
-                <!--<ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>-->
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Label Content="{Binding}"/>
-                            <TextBox/>
-                            <TextBlock Height="50" />
-                        </StackPanel>
-                        <!--<Label Content="{Binding}" />-->
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <system:String>Test</system:String>
-                <system:String>Test</system:String>
-                <system:String>Test</system:String>
-                <system:String>Test</system:String>
-            </ItemsControl>
-        </ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TreeView Grid.Column="0"/>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
+            <StackPanel x:Name="sbMainView" Grid.Column="2"/>
+        </Grid>
     </DockPanel>
 </Window>
