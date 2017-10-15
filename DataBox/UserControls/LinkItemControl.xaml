@@ -6,22 +6,44 @@
              xmlns:local="clr-namespace:DataBox.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type local:TagUserControl}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="lblTitle" Grid.Row="0" Grid.Column="0"/>
+        <TextBox x:Name="txtTitle" Grid.Row="0" Grid.Column="0" Visibility="Collapsed"/>
         <TextBlock x:Name="tblkDescription" Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="txtDescription" Grid.Row="1" Grid.Column="0" Visibility="Collapsed"/>
         <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
-            <Button x:Name="btnEdit" Content="Edit" Margin="5"/>
-            <Button x:Name="btnDelete" Content="Delete" Margin="5"/>
+            <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click"/>
+            <Button x:Name="btnUpdate" Content="Update" Visibility="Collapsed" Click="btnUpdate_Click"/>
+            <Button x:Name="btnDelete" Content="Delete"/>
         </StackPanel>
-        <TextBlock x:Name="tblkLinks" Grid.Row="3" Grid.ColumnSpan="2"/> 
+        <TextBlock x:Name="tblkLinks" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <local:TagUserControl x:Name="tagTags" Grid.Row="4" Grid.ColumnSpan="2" IsEnabled="False"/>
     </Grid>
 </UserControl>

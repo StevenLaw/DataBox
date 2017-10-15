@@ -17,8 +17,8 @@ namespace DataBoxLibrary.DataModels
         private string _name;
         [DataMember]
         private string _category;
-        [DataMember]
-        private string _subcategory;
+        //[DataMember]
+        //private string _subcategory;
 
         public string Name
         {
@@ -34,13 +34,13 @@ namespace DataBoxLibrary.DataModels
                 return _category;
             }
         }
-        public string Subcategory 
-        { 
-            get
-            {
-                return _subcategory;
-            }
-        }
+        //public string Subcategory 
+        //{ 
+        //    get
+        //    {
+        //        return _subcategory;
+        //    }
+        //}
 
         /// <summary>
         /// Gets the display.
@@ -54,9 +54,8 @@ namespace DataBoxLibrary.DataModels
             {
                 if (string.IsNullOrWhiteSpace(_category))
                     return _name;
-                else if (string.IsNullOrWhiteSpace(_subcategory))
+                else
                     return _category + ":" + _name;
-                else return _category + " - " + _subcategory + ":" + _name;
             }
         }
 
@@ -66,11 +65,10 @@ namespace DataBoxLibrary.DataModels
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
         /// <param name="subcategory">The sub category.</param>
-        public Tag(string name, string category = "", string subcategory = "")
+        public Tag(string name, string category = "")
         {
             _name = name;
             _category = category;
-            _subcategory = subcategory;
         }
 
         #region Equality
@@ -86,8 +84,7 @@ namespace DataBoxLibrary.DataModels
         {
             if (other == null) return false;
             else return (string.Equals(other.Name, _name, StringComparison.InvariantCultureIgnoreCase) &&
-                string.Equals(other.Category, _category, StringComparison.InvariantCultureIgnoreCase) &&
-                string.Equals(other.Subcategory, _subcategory, StringComparison.InvariantCultureIgnoreCase));
+                string.Equals(other.Category, _category, StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
@@ -103,6 +100,16 @@ namespace DataBoxLibrary.DataModels
             else if (ReferenceEquals(this, obj)) return false;
             else if (obj.GetType() != GetType()) return false;
             else return Equals(obj as Tag);
+        }
+
+        /// <summary>
+        /// Checks the string.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public bool CheckString(string value)
+        {
+            return (ToString().Equals(value));
         }
 
         /// <summary>
@@ -143,7 +150,7 @@ namespace DataBoxLibrary.DataModels
         /// </returns>
         public override int GetHashCode()
         {
-            return _name.GetHashCode() ^ _category.GetHashCode() ^ _subcategory.GetHashCode();
+            return _name.GetHashCode() ^ _category.GetHashCode();
         }
 
         #endregion

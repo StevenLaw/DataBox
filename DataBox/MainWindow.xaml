@@ -6,27 +6,29 @@
     <Window.Resources>
         <RoutedUICommand x:Key="CommandBinding_Exit" Text="Exit"/>
         <RoutedUICommand x:Key="CommandBinding_Add" Text="Add"/>
-        <RoutedUICommand x:Key="CommandBinding_Edit" Text="Edit"/>
+        <!--<RoutedUICommand x:Key="CommandBinding_Edit" Text="Edit"/>-->
     </Window.Resources>
     <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="CommandBinding_New" />
         <CommandBinding Command="Close" Executed="CommandBinding_Close" CanExecute="CommandBinding_CanExecute_Close" />
         <CommandBinding Command="Open" Executed="CommandBinding_Open" />
         <CommandBinding Command="Save" Executed="CommandBinding_Save" CanExecute="CommandBinding_CanExecute_Save" />
-        <CommandBinding Command="SaveAs" Executed="CommandBinding_SaveAs" />
+        <CommandBinding Command="SaveAs" Executed="CommandBinding_SaveAs" CanExecute="CommandBinding_CanExecute_SaveAs" />
         <CommandBinding Command="Cut" Executed="CommandBinding_Cut"/>
         <CommandBinding Command="Copy" Executed="CommandBinding_Copy"/>
         <CommandBinding Command="Paste" Executed="CommandBinding_Paste"/>
-        <CommandBinding Command="Delete" Executed="CommandBinding_Delete"/>
+        <!--<CommandBinding Command="Delete" Executed="CommandBinding_Delete"/>-->
         <CommandBinding Command="{StaticResource CommandBinding_Exit}" Executed="CommandBinding_Exit" />
         <CommandBinding Command="{StaticResource CommandBinding_Add}" Executed="CommandBinding_Add" />
-        <CommandBinding Command="{StaticResource CommandBinding_Edit}" Executed="CommandBinding_Edit" />
+        <!--<CommandBinding Command="{StaticResource CommandBinding_Edit}" Executed="CommandBinding_Edit" />-->
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
-        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
-        <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
-        <KeyBinding Key="S" Modifiers="Control+Shift" Command="SaveAs"/>
-        <KeyBinding Key="Q" Modifiers="Control" Command="{StaticResource CommandBinding_Exit}" />
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="Close"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="Save"/>
+        <KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="SaveAs"/>
+        <KeyBinding Key="Q" Modifiers="Ctrl" Command="{StaticResource CommandBinding_Exit}" />
+        <KeyBinding Key="Insert" Modifiers="Ctrl" Command="{StaticResource CommandBinding_Add}" />
     </Window.InputBindings>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -42,9 +44,9 @@
                     <MenuItem Header="E_xit" Command="{StaticResource CommandBinding_Exit}" InputGestureText="Ctrl+Q" />
                 </MenuItem>
                 <MenuItem Header="_Edit">
-                    <MenuItem Header="_Add" Command="{StaticResource CommandBinding_Add}" InputGestureText="" />
-                    <MenuItem Header="_Edit" Command="{StaticResource CommandBinding_Edit}" InputGestureText="" />
-                    <MenuItem Header="_Delete" Command="Delete" InputGestureText="" />
+                    <MenuItem Header="_Add" Command="{StaticResource CommandBinding_Add}" InputGestureText="Ctrl+Ins" />
+                    <!--<MenuItem Header="_Edit" Command="{StaticResource CommandBinding_Edit}" InputGestureText="" />
+                    <MenuItem Header="_Delete" Command="Delete" InputGestureText="" />-->
                     <Separator/>
                     <MenuItem Header="Cut" Command="Cut" InputGestureText="Ctrl+X" />
                     <MenuItem Header="Copy" Command="Copy" InputGestureText="Ctrl+C" />
@@ -75,9 +77,11 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TreeView Grid.Column="0"/>
+            <TreeView x:Name="treeTags"  Grid.Column="0"/>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
-            <StackPanel x:Name="sbMainView" Grid.Column="2"/>
+            <ScrollViewer x:Name="scrollMain" Grid.Column="2">
+                <StackPanel x:Name="sbMainView"/>
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 </Window>

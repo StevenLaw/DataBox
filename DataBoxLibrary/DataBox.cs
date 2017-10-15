@@ -55,13 +55,6 @@ namespace DataBoxLibrary
                 return new HashSet<string>(_tagList.Select(x => x.Category).Distinct().Where(x => !string.IsNullOrWhiteSpace(x)));
             }
         }
-        public HashSet<string> Subcategories
-        {
-            get
-            {
-                return new HashSet<string>(_tagList.Select(x => x.Subcategory).Distinct().Where(x => !string.IsNullOrWhiteSpace(x)));
-            }
-        }
         public List<Entry> Entries 
         { 
             get
@@ -86,11 +79,10 @@ namespace DataBoxLibrary
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
-        /// <param name="subcategory">The subcategory.</param>
         /// <returns></returns>
-        public bool TagExists(string name, string category = "", string subcategory = "")
+        public bool TagExists(string name, string category = "")
         {
-            return TagList.Contains(new Tag(name, category, subcategory));
+            return TagList.Contains(new Tag(name, category));
         }
 
         /// <summary>
@@ -112,15 +104,14 @@ namespace DataBoxLibrary
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="category">The category.</param>
-        /// <param name="subcategory">The subcategory.</param>
         /// <returns></returns>
-        public Tag NewTag(string name, string category = "", string subcategory = "")
+        public Tag NewTag(string name, string category = "")
         {
-            if (TagExists(name, category, subcategory))
+            if (TagExists(name, category))
                 return null;
             else
             {
-                Tag tag = new Tag(name, category, subcategory);
+                Tag tag = new Tag(name, category);
                 TagList.Add(tag);
                 return tag;
             }
@@ -165,19 +156,6 @@ namespace DataBoxLibrary
         }
 
         /// <summary>
-        /// Gets the name of the tags by.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="subcategory">The subcategory.</param>
-        /// <returns></returns>
-        public Tag[] GetTagsByName(string name, string category, string subcategory)
-        {
-            return _tagList.Where(x => x.Name == name && x.Category == category && 
-                x.Subcategory == subcategory).ToArray();
-        }
-
-        /// <summary>
         /// Gets the tags by category.
         /// </summary>
         /// <param name="category">The category.</param>
@@ -185,17 +163,6 @@ namespace DataBoxLibrary
         public Tag[] GetTagsByCategory(string category)
         {
             return _tagList.Where(x => x.Category == category).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the tags by subcategory.
-        /// </summary>
-        /// <param name="category">The category.</param>
-        /// <param name="subcategory">The subcategory.</param>
-        /// <returns></returns>
-        public Tag[] GetTagsBySubcategory(string category, string subcategory)
-        {
-            return _tagList.Where(x => x.Category == category && x.Subcategory == subcategory).ToArray();
         }
 
         #endregion
@@ -242,16 +209,6 @@ namespace DataBoxLibrary
             return _entries.Where(x => x.Tags.Any(y => y.Category == tagCategory)).ToArray();
         }
 
-        /// <summary>
-        /// Gets the entries by tag subcategory.
-        /// </summary>
-        /// <param name="tagSubcategory">The tag subcategory.</param>
-        /// <returns></returns>
-        public Entry[] GetEntriesByTagSubcategory(string tagSubcategory)
-        {
-            return _entries.Where(x => x.Tags.Any(y => y.Subcategory == tagSubcategory)).ToArray();
-        }
-
         public LinkEntry[] GetEntriesByLinkTag(Tag linkTag)
         {
             return (from e in _entries
@@ -292,6 +249,8 @@ namespace DataBoxLibrary
         {
             using (ZipFile zip = new ZipFile())
             {
+                if (Path.EndsWith("/") || Path.EndsWith("\\"))
+                    Path += "\\";
                 zip.AddEntry("Data.xml", Serialize());
                 zip.Save(Path + Filename);
             }

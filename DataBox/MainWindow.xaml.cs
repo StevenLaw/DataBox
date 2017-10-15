@@ -24,7 +24,7 @@ namespace DataBox
     public partial class MainWindow : Window
     {
         private bool changeMade = false;
-        private DataBoxLibrary.DataBox databox = null;
+        public DataBoxLibrary.DataBox Databox { get; set; } = null;
 
         public MainWindow()
         {
@@ -40,7 +40,7 @@ namespace DataBox
             //sbMainView.Children.Add(new LinkItemControl(entry2));
         }
 
-        private void SetChangeMade(bool value)
+        internal void SetChangeMade(bool value)
         {
             changeMade = value;
             if (changeMade)
@@ -51,15 +51,72 @@ namespace DataBox
 
         private void DisplayFileName()
         {
-            if (databox == null)
+            if (Databox == null)
                 lblStatus.Content = string.Empty;
             else
             {
                 if (miShowFullPath.IsChecked == true)
-                    lblStatus.Content = databox.Path + databox.Filename;
+                    lblStatus.Content = Databox.Path + Databox.Filename;
                 else
-                    lblStatus.Content = databox.Filename;
+                    lblStatus.Content = Databox.Filename;
             }
+        }
+
+        public void LoadEntries()
+        {
+            if (Databox == null)
+                MessageBox.Show("File is not a Data Box file.",
+                    "The selected file was not the correct format.",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            else
+            {
+                foreach (Entry entry in Databox.Entries)
+                {
+                    LinkEntry lEntry = entry as LinkEntry;
+                    if (lEntry != null)
+                        sbMainView.Children.Add(new LinkItemControl(ref lEntry));
+                }
+            }
+        }
+
+        public void ClearEntries()
+        {
+            Databox = null;
+            sbMainView.Children.Clear();
+        }
+
+        public void LoadTags()
+        {
+            if (Databox != null)
+            {
+                ClearTags();
+                foreach (Tag tag in Databox.GetTagsByCategory(""))
+                {
+                    TreeViewItem tagItem = new TreeViewItem();
+                    tagItem.Header = tag.Name;
+                    treeTags.Items.Add(tagItem);
+                }
+                foreach (string cat in Databox.Categories)
+                {
+                    var cats = Databox.GetTagsByCategory(cat);
+                    TreeViewItem category = new TreeViewItem();
+                    category.Header = cat;
+                    foreach (Tag tag in cats)
+                    {
+                        TreeViewItem tagItem = new TreeViewItem();
+                        tagItem.Header = tag.Name;
+                        category.Items.Add(tagItem);
+                    }
+                    treeTags.Items.Add(category);
+                }
+                
+            }
+        }
+
+        public void ClearTags()
+        {
+            treeTags.Items.Clear();
         }
 
         private void CommandBinding_Open(object sender, ExecutedRoutedEventArgs e)
@@ -67,6 +124,7 @@ namespace DataBox
             OpenFileDialog ofd = new OpenFileDialog();
             if(ofd.ShowDialog(this) == true)
             {
+                ClearEntries();
                 if (DataBoxLibrary.DataBox.IsEncrypted(ofd.FileName))
                 {
                     PasswordDialogue pd = new PasswordDialogue();
@@ -74,11 +132,11 @@ namespace DataBox
                     {
                         try
                         {
-                            databox = DataBoxLibrary.DataBox.Open(ofd.FileName, pd.Password);
+                            Databox = DataBoxLibrary.DataBox.Open(ofd.FileName, pd.Password);
                             DisplayFileName();
                             SetChangeMade(false);
                         }
-                        catch (DataBoxLibrary.IncorrectPasswordException ex)
+                        catch (DataBoxLibrary.IncorrectPasswordException)
                         {
                             MessageBox.Show("Incorrect Password", "The password was incorrect", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
@@ -89,41 +147,41 @@ namespace DataBox
                 }
                 else
                 {
-                    databox = DataBoxLibrary.DataBox.Open(ofd.FileName);
+                    Databox = DataBoxLibrary.DataBox.Open(ofd.FileName);
                     DisplayFileName();
                     SetChangeMade(false);
                 }
-                if (databox == null)
-                    MessageBox.Show("File is not a Data Box file.",
-                        "The selected file was not the correct format.",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                else
-                {
-                    foreach (Entry entry in databox.Entries)
-                    {
-                        if (entry is LinkEntry)
-                            sbMainView.Children.Add(new LinkItemControl((LinkEntry)entry));
-                    }
-                }
+                LoadEntries();
+                LoadTags();
             }
         }
 
         private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
             imgStatus.Source = null;
+            ClearEntries();
+            ClearTags();
             DisplayFileName();
-            databox = null;
         }
-
+    
         private void CommandBinding_Save(object sender, ExecutedRoutedEventArgs e)
         {
-
+            Databox.Save();
+            SetChangeMade(false);
         }
 
         private void CommandBinding_SaveAs(object sender, ExecutedRoutedEventArgs e)
         {
-
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Databox file (*.dbx)|*.dbx|All files|*.*";
+            if (sfd.ShowDialog(this) == true)
+            {
+                Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
+                Databox.Filename = System.IO.Path.GetFileName(sfd.FileName);
+                Databox.Save();
+                DisplayFileName();
+                SetChangeMade(false);
+            }
         }
 
         private void CommandBinding_Exit(object sender, ExecutedRoutedEventArgs e)
@@ -132,7 +190,10 @@ namespace DataBox
         }
 
         private void CommandBinding_Add(object sender, ExecutedRoutedEventArgs e)
-        { }
+        {
+            var nlew = new NewLinkEntryWindow(this);
+            nlew.Show();
+        }
 
         private void CommandBinding_Edit(object sender, ExecutedRoutedEventArgs e)
         { }
@@ -151,7 +212,7 @@ namespace DataBox
 
         private void CommandBinding_CanExecute_Close(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = databox != null;
+            e.CanExecute = Databox != null;
         }
 
         private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
@@ -170,6 +231,25 @@ namespace DataBox
                 sbStatus.Visibility = System.Windows.Visibility.Visible;
             else
                 sbStatus.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void CommandBinding_CanExecute_SaveAs(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Databox != null;
+        }
+
+        private void CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Databox file (*.dbx)|*.dbx|All files|*.*";
+            if (sfd.ShowDialog() == true)
+            {
+                ClearEntries();
+                ClearTags();
+                Databox = new DataBoxLibrary.DataBox(System.IO.Path.GetFileName(sfd.FileName));
+                Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
+                DisplayFileName();
+            }
         }
     }
 }
