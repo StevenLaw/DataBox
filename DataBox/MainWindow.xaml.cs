@@ -24,6 +24,12 @@ namespace DataBox
     public partial class MainWindow : Window
     {
         private bool changeMade = false;
+        /// <summary>
+        /// Gets or sets the databox.
+        /// </summary>
+        /// <value>
+        /// The databox.
+        /// </value>
         public DataBoxLibrary.DataBox Databox { get; set; } = null;
 
         public MainWindow()
@@ -40,6 +46,10 @@ namespace DataBox
             //sbMainView.Children.Add(new LinkItemControl(entry2));
         }
 
+        /// <summary>
+        /// Sets the change made.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
         internal void SetChangeMade(bool value)
         {
             changeMade = value;
@@ -49,6 +59,9 @@ namespace DataBox
                 imgStatus.Source = BitmapFrame.Create(new Uri("pack://application:,,,/DataBox;component/Resources/blueSave.png", UriKind.RelativeOrAbsolute));
         }
 
+        /// <summary>
+        /// Displays the name of the file.
+        /// </summary>
         private void DisplayFileName()
         {
             if (Databox == null)
@@ -62,6 +75,9 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Loads the entries.
+        /// </summary>
         public void LoadEntries()
         {
             if (Databox == null)
@@ -80,12 +96,18 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Clears the entries.
+        /// </summary>
         public void ClearEntries()
         {
             Databox = null;
             sbMainView.Children.Clear();
         }
 
+        /// <summary>
+        /// Loads the tags.
+        /// </summary>
         public void LoadTags()
         {
             if (Databox != null)
@@ -114,11 +136,19 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Clears the tags.
+        /// </summary>
         public void ClearTags()
         {
             treeTags.Items.Clear();
         }
 
+        /// <summary>
+        /// Handles the Open event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Open(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -156,6 +186,11 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Handles the Close event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
             imgStatus.Source = null;
@@ -163,13 +198,23 @@ namespace DataBox
             ClearTags();
             DisplayFileName();
         }
-    
+
+        /// <summary>
+        /// Handles the Save event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Save(object sender, ExecutedRoutedEventArgs e)
         {
             Databox.Save();
             SetChangeMade(false);
         }
 
+        /// <summary>
+        /// Handles the SaveAs event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_SaveAs(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -184,47 +229,97 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Handles the Exit event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Exit(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Handles the Add event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Add(object sender, ExecutedRoutedEventArgs e)
         {
             var nlew = new NewLinkEntryWindow(this);
             nlew.Show();
         }
 
+        /// <summary>
+        /// Handles the Edit event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Edit(object sender, ExecutedRoutedEventArgs e)
         { }
 
+        /// <summary>
+        /// Handles the Delete event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Delete(object sender, ExecutedRoutedEventArgs e)
         { }
 
         private void CommandBinding_Cut(object sender, ExecutedRoutedEventArgs e)
         { }
 
+        /// <summary>
+        /// Handles the Copy event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Copy(object sender, ExecutedRoutedEventArgs e)
         {}
 
+        /// <summary>
+        /// Handles the Paste event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Paste(object sender, ExecutedRoutedEventArgs e)
         { }
 
+        /// <summary>
+        /// Handles the Close event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_CanExecute_Close(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = Databox != null;
         }
 
+        /// <summary>
+        /// Handles the Save event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = changeMade;
         }
 
+        /// <summary>
+        /// Handles the Click event of the miShowFullPath control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void miShowFullPath_Click(object sender, RoutedEventArgs e)
         {
             DisplayFileName();
         }
 
+        /// <summary>
+        /// Handles the Click event of the miShowStatusBar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void miShowStatusBar_Click(object sender, RoutedEventArgs e)
         {
             if (miShowStatusBar.IsChecked)
@@ -233,11 +328,21 @@ namespace DataBox
                 sbStatus.Visibility = System.Windows.Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Handles the SaveAs event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_CanExecute_SaveAs(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = Databox != null;
         }
 
+        /// <summary>
+        /// Handles the New event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();

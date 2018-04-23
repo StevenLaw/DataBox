@@ -28,6 +28,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -43,7 +44,20 @@
             <Button x:Name="btnUpdate" Content="Update" Visibility="Collapsed" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="Delete"/>
         </StackPanel>
-        <TextBlock x:Name="tblkLinks" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="tblkLinks" Grid.Row="3" Grid.ColumnSpan="2" Visibility="Collapsed" />
+        <ListView x:Name="lvLinks" Grid.Row="3" Grid.ColumnSpan="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Content="Name"/>
+                        <TextBox x:Name="txtLinkName" Text="{Binding Name}" />
+
+                        <Label Content="Link"/>
+                        <TextBlock x:Name="txtLink" Text="{Binding Link}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <local:TagUserControl x:Name="tagTags" Grid.Row="4" Grid.ColumnSpan="2" IsEnabled="False"/>
     </Grid>
 </UserControl>

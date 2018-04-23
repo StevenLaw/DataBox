@@ -20,6 +20,12 @@ namespace DataBoxLibrary.DataModels
         //[DataMember]
         //private string _subcategory;
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name
         {
             get
@@ -27,6 +33,12 @@ namespace DataBoxLibrary.DataModels
                 return _name;
             }
         }
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
         public string Category 
         { 
             get

@@ -16,6 +16,12 @@ namespace DataBoxLibrary.DataModels
     {
         [DataMember]
         protected HashSet<Tag> _tags = new HashSet<Tag>();
+        /// <summary>
+        /// Gets the tags.
+        /// </summary>
+        /// <value>
+        /// The tags.
+        /// </value>
         public HashSet<Tag> Tags 
         { 
             get
@@ -23,6 +29,12 @@ namespace DataBoxLibrary.DataModels
                 return _tags;
             }
         }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         [DataMember]
         public string Name { get; set; }
 

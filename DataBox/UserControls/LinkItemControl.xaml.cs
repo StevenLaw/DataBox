@@ -38,6 +38,7 @@ namespace DataBox.UserControls
                 });
                 tblkLinks.Inlines.Add(new Run(Environment.NewLine));
             }
+            lvLinks.ItemsSource = entry.Links;
             tagTags.ClearTags();
             tagTags.AddTags(entry.Tags.Select(x => x.Display).ToArray());
         }
