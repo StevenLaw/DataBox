@@ -52,29 +52,19 @@ namespace DataBox.UserControls
         /// </value>
         public AutocompleteFunction CurrentAutocomplete { get; set; }
 
-        private string[] _initialTags = null;
+        //private string[] _initialTags = null;
 
-        public string[] Tags
-        {
-            get
-            {
-                return rtbMain.CaretPosition.Paragraph.Inlines.Select(x =>
-                {
-                    var container = x as InlineUIContainer;
-                    if (container != null)
-                    {
-                        var content = container.Child as ContentPresenter;
-                        if (content != null)
-                            return content.Content as string;
-                    }
-                    return "";
-                }).ToArray();
-            }
-            //set
-            //{
-            //    _initialTags = value;
-            //}
-        }
+        public string[] Tags => rtbMain.CaretPosition.Paragraph.Inlines.Select(x =>
+                                                           {
+                                                               if (x is InlineUIContainer container)
+                                                               {
+                                                                   if (container.Child is ContentPresenter content)
+                                                                   {
+                                                                       return content.Content as string;
+                                                                   }
+                                                               }
+                                                               return "";
+                                                           }).ToArray();
         #endregion
 
         public TagUserControl()
@@ -182,8 +172,7 @@ namespace DataBox.UserControls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ParentWindow_StateChanged(object sender, EventArgs e)
         {
-            Window main = sender as Window;
-            if (main != null && menuOpen)
+            if (sender is Window main && menuOpen)
             {
                 if (main.WindowState == WindowState.Minimized)
                     popAutoComplete.IsOpen = false;
@@ -247,8 +236,7 @@ namespace DataBox.UserControls
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void lstAutoComplete_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string content = lstAutoComplete.SelectedItem as string;
-            if (content != null)
+            if (lstAutoComplete.SelectedItem is string content)
             {
                 ReplaceTextWithToken(rtbMain.CaretPosition.GetTextInRun(LogicalDirection.Backward), content);
                 popAutoComplete.IsOpen = false;
@@ -283,13 +271,11 @@ namespace DataBox.UserControls
 
             var para = rtbMain.CaretPosition.Paragraph;
 
-            var matchedRun = para.Inlines.FirstOrDefault(inline =>
-            {
-                var run = inline as Run;
-                return (run != null && run.Text.EndsWith(inputText));
-            }) as Run;
 
-            if (matchedRun != null) //Found a run that matched the inputText
+            if (para.Inlines.FirstOrDefault(inline =>
+            {
+                return (inline is Run run && run.Text.EndsWith(inputText));
+            }) is Run matchedRun) //Found a run that matched the inputText
             {
                 var tokenContainer = CreateTokenWithContainer(inputText, token);
                 para.Inlines.InsertBefore(matchedRun, tokenContainer);
@@ -319,8 +305,7 @@ namespace DataBox.UserControls
                 if (rtbMain.Document.Blocks.Count() == 0)
                     rtbMain.Document.Blocks.Add(new Paragraph());
                 var tokenContainer = CreateTokenWithContainer(null, tagText);
-                Paragraph para = rtbMain.Document.Blocks.FirstOrDefault(x => x is Paragraph) as Paragraph;
-                if (para != null)
+                if (rtbMain.Document.Blocks.FirstOrDefault(x => x is Paragraph) is Paragraph para)
                     para.Inlines.Add(tokenContainer);
             }
 

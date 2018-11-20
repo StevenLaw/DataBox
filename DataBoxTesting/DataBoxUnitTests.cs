@@ -36,21 +36,21 @@ namespace DataBoxTesting
             Assert.AreEqual(tag, data.TagList.First());
         }
 
-        [TestMethod]
-        public void DataBoxAddComplexTag()
-        {
-            //Arrange
-            var data = new DataBox("test.xml");
+        //[TestMethod]
+        //public void DataBoxAddComplexTag()
+        //{
+        //    //Arrange
+        //    var data = new DataBox("test.xml");
 
-            //Act
-            var tag = data.NewTag("test", "category", "subcategory");
+        //    //Act
+        //    var tag = data.NewTag("test", "category", "subcategory");
 
-            //Assert
-            Assert.AreEqual("test", data.TagList.First().Name);
-            Assert.AreEqual("category", data.TagList.First().Category);
-            Assert.AreEqual("subcategory", data.TagList.First().Subcategory);
-            Assert.AreEqual(tag, data.TagList.First());
-        }
+        //    //Assert
+        //    Assert.AreEqual("test", data.TagList.First().Name);
+        //    Assert.AreEqual("category", data.TagList.First().Category);
+        //    Assert.AreEqual("subcategory", data.TagList.First().Subcategory);
+        //    Assert.AreEqual(tag, data.TagList.First());
+        //}
 
         [TestMethod]
         public void DataBoxAddMultiTags()
@@ -296,35 +296,35 @@ namespace DataBoxTesting
             Assert.IsTrue(tags.Any(x => x == tag2));
         }
 
-        [TestMethod]
-        public void DataBoxGetTagsBySubsategory()
-        {
-            //Arrange
-            var data = new DataBox("test.dat");
-            var tag = data.NewTag("tag", "category", "subcategory");
+        //[TestMethod]
+        //public void DataBoxGetTagsBySubsategory()
+        //{
+        //    //Arrange
+        //    var data = new DataBox("test.dat");
+        //    var tag = data.NewTag("tag", "category", "subcategory");
 
-            //Act
-            Tag[] tags = data.GetTagsBySubcategory("category", "subcategory");
+        //    //Act
+        //    Tag[] tags = data.GetTagsBySubcategory("category", "subcategory");
 
-            //Assert
-            Assert.AreEqual(tag, tags[0]);
-        }
+        //    //Assert
+        //    Assert.AreEqual(tag, tags[0]);
+        //}
 
-        [TestMethod]
-        public void DataBoxGetTagsBySubcategoryMulti()
-        {
-            //Arrange
-            var data = new DataBox("test.dat");
-            var tag = data.NewTag("tag 1", "category", "subcategory");
-            var tag2 = data.NewTag("tag 2", "category", "subcategory");
+        //[TestMethod]
+        //public void DataBoxGetTagsBySubcategoryMulti()
+        //{
+        //    //Arrange
+        //    var data = new DataBox("test.dat");
+        //    var tag = data.NewTag("tag 1", "category", "subcategory");
+        //    var tag2 = data.NewTag("tag 2", "category", "subcategory");
 
-            //Act
-            Tag[] tags = data.GetTagsBySubcategory("category", "subcategory");
+        //    //Act
+        //    Tag[] tags = data.GetTagsBySubcategory("category", "subcategory");
 
-            //Assert
-            Assert.IsTrue(tags.Any(x => x == tag));
-            Assert.IsTrue(tags.Any(x => x == tag2));
-        }
+        //    //Assert
+        //    Assert.IsTrue(tags.Any(x => x == tag));
+        //    Assert.IsTrue(tags.Any(x => x == tag2));
+        //}
 
         [TestMethod]
         public void DataBoxGetEntries()

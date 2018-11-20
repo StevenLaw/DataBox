@@ -75,74 +75,83 @@ namespace DataBox
             }
         }
 
-        /// <summary>
-        /// Loads the entries.
-        /// </summary>
-        public void LoadEntries()
-        {
-            if (Databox == null)
-                MessageBox.Show("File is not a Data Box file.",
-                    "The selected file was not the correct format.",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            else
-            {
-                foreach (Entry entry in Databox.Entries)
-                {
-                    LinkEntry lEntry = entry as LinkEntry;
-                    if (lEntry != null)
-                        sbMainView.Children.Add(new LinkItemControl(ref lEntry));
-                }
-            }
-        }
+        ///// <summary>
+        ///// Loads the entries.
+        ///// </summary>
+        //public void LoadEntries()
+        //{
+        //    if (Databox == null)
+        //        MessageBox.Show("File is not a Data Box file.",
+        //            "The selected file was not the correct format.",
+        //            MessageBoxButton.OK,
+        //            MessageBoxImage.Warning);
+        //    else
+        //    {
+        //        ccMain.Content = new MainViewControl(Databox.Entries);
+        //        //foreach (Entry entry in Databox.Entries)
+        //        //{
+        //        //    LinkEntry lEntry = entry as LinkEntry;
+        //        //    if (lEntry != null)
+        //        //        sbMainView.Children.Add(new LinkItemControl(ref lEntry));
+        //        //}
+        //    }
+        //}
 
-        /// <summary>
-        /// Clears the entries.
-        /// </summary>
-        public void ClearEntries()
-        {
-            Databox = null;
-            sbMainView.Children.Clear();
-        }
+        ///// <summary>
+        ///// Clears the entries.
+        ///// </summary>
+        //public void ClearEntries()
+        //{
+        //    Databox = null;
+        //    if (ccMain.Content is MainViewControl control)
+        //    {
+        //        control.ClearEntries();
+        //    }
+        //    //sbMainView.Children.Clear();
+        //}
 
-        /// <summary>
-        /// Loads the tags.
-        /// </summary>
-        public void LoadTags()
-        {
-            if (Databox != null)
-            {
-                ClearTags();
-                foreach (Tag tag in Databox.GetTagsByCategory(""))
-                {
-                    TreeViewItem tagItem = new TreeViewItem();
-                    tagItem.Header = tag.Name;
-                    treeTags.Items.Add(tagItem);
-                }
-                foreach (string cat in Databox.Categories)
-                {
-                    var cats = Databox.GetTagsByCategory(cat);
-                    TreeViewItem category = new TreeViewItem();
-                    category.Header = cat;
-                    foreach (Tag tag in cats)
-                    {
-                        TreeViewItem tagItem = new TreeViewItem();
-                        tagItem.Header = tag.Name;
-                        category.Items.Add(tagItem);
-                    }
-                    treeTags.Items.Add(category);
-                }
+        ///// <summary>
+        ///// Loads the tags.
+        ///// </summary>
+        //public void LoadTags()
+        //{
+        //    if (Databox != null)
+        //    {
+        //        ClearTags();
+        //        foreach (Tag tag in Databox.GetTagsByCategory(""))
+        //        {
+        //            TreeViewItem tagItem = new TreeViewItem();
+        //            tagItem.Header = tag.Name;
+        //            treeTags.Items.Add(tagItem);
+        //        }
+        //        foreach (string cat in Databox.Categories)
+        //        {
+        //            var cats = Databox.GetTagsByCategory(cat);
+        //            TreeViewItem category = new TreeViewItem();
+        //            category.Header = cat;
+        //            foreach (Tag tag in cats)
+        //            {
+        //                TreeViewItem tagItem = new TreeViewItem();
+        //                tagItem.Header = tag.Name;
+        //                category.Items.Add(tagItem);
+        //            }
+        //            treeTags.Items.Add(category);
+        //        }
                 
-            }
-        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Clears the tags.
-        /// </summary>
-        public void ClearTags()
-        {
-            treeTags.Items.Clear();
-        }
+        ///// <summary>
+        ///// Clears the tags.
+        ///// </summary>
+        //public void ClearTags()
+        //{
+        //    if (ccMain.Content is MainViewControl control)
+        //    {
+        //        control.ClearTags();
+        //    }
+        //    //treeTags.Items.Clear();
+        //}
 
         /// <summary>
         /// Handles the Open event of the CommandBinding control.
@@ -154,7 +163,7 @@ namespace DataBox
             OpenFileDialog ofd = new OpenFileDialog();
             if(ofd.ShowDialog(this) == true)
             {
-                ClearEntries();
+                //ClearEntries();
                 if (DataBoxLibrary.DataBox.IsEncrypted(ofd.FileName))
                 {
                     PasswordDialogue pd = new PasswordDialogue();
@@ -181,8 +190,9 @@ namespace DataBox
                     DisplayFileName();
                     SetChangeMade(false);
                 }
-                LoadEntries();
-                LoadTags();
+                ccMain.Content = new MainViewControl();
+                //LoadEntries();
+                //LoadTags();
             }
         }
 
@@ -194,8 +204,9 @@ namespace DataBox
         private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
             imgStatus.Source = null;
-            ClearEntries();
-            ClearTags();
+            //ClearEntries();
+            //ClearTags();
+            ccMain.Content = null;
             DisplayFileName();
         }
 
@@ -246,8 +257,8 @@ namespace DataBox
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Add(object sender, ExecutedRoutedEventArgs e)
         {
-            var nlew = new NewLinkEntryWindow(this);
-            nlew.Show();
+            //var nlew = new NewLinkEntryWindow(this);
+            //nlew.Show();
         }
 
         /// <summary>
@@ -349,11 +360,12 @@ namespace DataBox
             sfd.Filter = "Databox file (*.dbx)|*.dbx|All files|*.*";
             if (sfd.ShowDialog() == true)
             {
-                ClearEntries();
-                ClearTags();
+                //ClearEntries();
+                //ClearTags();
                 Databox = new DataBoxLibrary.DataBox(System.IO.Path.GetFileName(sfd.FileName));
                 Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
                 DisplayFileName();
+                ccMain.Content = new MainViewControl();
             }
         }
     }

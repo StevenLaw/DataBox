@@ -29,12 +29,6 @@ namespace DataBoxLibrary.DataModels
                 return _tags;
             }
         }
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
         [DataMember]
         public string Name { get; set; }
 

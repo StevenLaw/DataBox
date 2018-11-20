@@ -71,17 +71,6 @@
             <Separator/>
             <Label x:Name="lblStatus" Content=""/>
         </StatusBar>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TreeView x:Name="treeTags"  Grid.Column="0"/>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
-            <ScrollViewer x:Name="scrollMain" Grid.Column="2">
-                <StackPanel x:Name="sbMainView"/>
-            </ScrollViewer>
-        </Grid>
+        <ContentControl x:Name="ccMain"/>
     </DockPanel>
 </Window>

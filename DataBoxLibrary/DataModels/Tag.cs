@@ -108,7 +108,7 @@ namespace DataBoxLibrary.DataModels
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             else if (ReferenceEquals(this, obj)) return false;
             else if (obj.GetType() != GetType()) return false;
             else return Equals(obj as Tag);
@@ -134,8 +134,8 @@ namespace DataBoxLibrary.DataModels
         /// </returns>
         public static bool operator ==(Tag t1, Tag t2)
         {
-            if (ReferenceEquals(t1, null))
-                return ReferenceEquals(t2, null);
+            if (t1 is null)
+                return t2 is null;
             return t1.Equals(t2);
         }
 
@@ -149,8 +149,8 @@ namespace DataBoxLibrary.DataModels
         /// </returns>
         public static bool operator !=(Tag t1, Tag t2)
         {
-            if (ReferenceEquals(t1, null))
-                return ReferenceEquals(t2, null);
+            if (t1 is null)
+                return t2 is null;
             return !t2.Equals(t2);
         }
 
