@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataBox.ViewModels
+﻿namespace DataBox.ViewModels
 {
     /// <summary>Interface item for the tag <see cref="System.Windows.Controls.TreeView"/></summary>
     public interface IViewTagItem

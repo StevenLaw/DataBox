@@ -58,6 +58,7 @@
     <Compile Include="PasswordDialogue.xaml.cs">
       <DependentUpon>PasswordDialogue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DataBoxViewModel.cs" />
     <Compile Include="UserControls\MainViewControl.xaml.cs">
       <DependentUpon>MainViewControl.xaml</DependentUpon>
     </Compile>
@@ -65,6 +66,7 @@
       <DependentUpon>TagUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\IViewTagItem.cs" />
+    <Compile Include="ViewModels\TagTree.cs" />
     <Compile Include="ViewModels\ViewTag.cs" />
     <Compile Include="ViewModels\ViewTagCategory.cs" />
     <Page Include="MainWindow.xaml">
