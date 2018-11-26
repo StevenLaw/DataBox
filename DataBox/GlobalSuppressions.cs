@@ -6,4 +6,6 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:DataBox.UserControls.TagUserControl.rtbMain_TextChanged(System.Object,System.Windows.Controls.TextChangedEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:DataBox.UserControls.TagUserControl.lstAutoComplete_MouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:DataBox.MainWindow.miShowStatusBar_Click(System.Object,System.Windows.RoutedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:DataBox.MainWindow.miShowFullPath_Click(System.Object,System.Windows.RoutedEventArgs)")]
 

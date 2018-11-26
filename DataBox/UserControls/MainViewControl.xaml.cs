@@ -26,6 +26,8 @@ namespace DataBox.UserControls
     {
         private DataBoxViewModel model = new DataBoxViewModel();
 
+        public bool ItemSelected { get => lvMain.SelectedItem != null; }
+
         protected DataBoxLibrary.DataBox Databox
         {
             get => (Application.Current.MainWindow as MainWindow)?.Databox;

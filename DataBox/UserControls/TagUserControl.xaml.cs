@@ -55,18 +55,21 @@ namespace DataBox.UserControls
         //private string[] _initialTags = null;
 
         public string[] Tags => rtbMain.CaretPosition.Paragraph.Inlines.Select(x =>
-                                                           {
-                                                               if (x is InlineUIContainer container)
-                                                               {
-                                                                   if (container.Child is ContentPresenter content)
-                                                                   {
-                                                                       return content.Content as string;
-                                                                   }
-                                                               }
-                                                               return "";
-                                                           }).ToArray();
+        {
+            if (x is InlineUIContainer container)
+            {
+                if (container.Child is ContentPresenter content)
+                {
+                    return content.Content as string;
+                }
+            }
+            return "";
+        }).ToArray();
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagUserControl"/> class.
+        /// </summary>
         public TagUserControl()
         {
             InitializeComponent();
@@ -78,6 +81,11 @@ namespace DataBox.UserControls
             Loaded += TagUserControl_Loaded;
         }
 
+        /// <summary>
+        /// Handles the Loaded event of the TagUserControl control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void TagUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             // Add additional events to the parent window

@@ -191,8 +191,6 @@ namespace DataBox
                     SetChangeMade(false);
                 }
                 ccMain.Content = new MainViewControl();
-                //LoadEntries();
-                //LoadTags();
             }
         }
 
@@ -204,10 +202,18 @@ namespace DataBox
         private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
             imgStatus.Source = null;
-            //ClearEntries();
-            //ClearTags();
             ccMain.Content = null;
             DisplayFileName();
+        }
+
+        /// <summary>
+        /// Handles the Close event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_Close(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Databox != null;
         }
 
         /// <summary>
@@ -222,14 +228,26 @@ namespace DataBox
         }
 
         /// <summary>
+        /// Handles the Save event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = changeMade;
+        }
+
+        /// <summary>
         /// Handles the SaveAs event of the CommandBinding control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_SaveAs(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Databox file (*.dbx)|*.dbx|All files|*.*";
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Databox file (*.dbx)|*.dbx|All files|*.*"
+            };
             if (sfd.ShowDialog(this) == true)
             {
                 Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
@@ -238,6 +256,16 @@ namespace DataBox
                 DisplayFileName();
                 SetChangeMade(false);
             }
+        }
+
+        /// <summary>
+        /// Handles the SaveAs event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_SaveAs(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Databox != null;
         }
 
         /// <summary>
@@ -259,6 +287,7 @@ namespace DataBox
         {
             //var nlew = new NewLinkEntryWindow(this);
             //nlew.Show();
+            ccMain.Content = new AddEditLinkEntryControl();
         }
 
         /// <summary>
@@ -267,7 +296,20 @@ namespace DataBox
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Edit(object sender, ExecutedRoutedEventArgs e)
-        { }
+        {
+            if (ccMain.Content is MainViewControl mainViewControl)
+            {
+                if (mainViewControl.lvMain.SelectedItem is LinkEntry linkEntry)
+                {
+                    ccMain.Content = new AddEditLinkEntryControl(linkEntry);
+                }
+            }
+        }
+
+        private void CommandBinding_CanExecute_Edit(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (ccMain?.Content as MainViewControl)?.ItemSelected ?? false;
+        }
 
         /// <summary>
         /// Handles the Delete event of the CommandBinding control.
@@ -277,6 +319,11 @@ namespace DataBox
         private void CommandBinding_Delete(object sender, ExecutedRoutedEventArgs e)
         { }
 
+        /// <summary>
+        /// Handles the Cut event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Cut(object sender, ExecutedRoutedEventArgs e)
         { }
 
@@ -297,26 +344,6 @@ namespace DataBox
         { }
 
         /// <summary>
-        /// Handles the Close event of the CommandBinding_CanExecute control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
-        private void CommandBinding_CanExecute_Close(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Databox != null;
-        }
-
-        /// <summary>
-        /// Handles the Save event of the CommandBinding_CanExecute control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
-        private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = changeMade;
-        }
-
-        /// <summary>
         /// Handles the Click event of the miShowFullPath control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -334,19 +361,9 @@ namespace DataBox
         private void miShowStatusBar_Click(object sender, RoutedEventArgs e)
         {
             if (miShowStatusBar.IsChecked)
-                sbStatus.Visibility = System.Windows.Visibility.Visible;
+                sbStatus.Visibility = Visibility.Visible;
             else
-                sbStatus.Visibility = System.Windows.Visibility.Hidden;
-        }
-
-        /// <summary>
-        /// Handles the SaveAs event of the CommandBinding_CanExecute control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
-        private void CommandBinding_CanExecute_SaveAs(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Databox != null;
+                sbStatus.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -356,17 +373,41 @@ namespace DataBox
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Databox file (*.dbx)|*.dbx|All files|*.*";
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Databox file (*.dbx)|*.dbx|All files|*.*"
+            };
             if (sfd.ShowDialog() == true)
             {
                 //ClearEntries();
                 //ClearTags();
-                Databox = new DataBoxLibrary.DataBox(System.IO.Path.GetFileName(sfd.FileName));
-                Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
+                Databox = new DataBoxLibrary.DataBox(System.IO.Path.GetFileName(sfd.FileName))
+                {
+                    Path = System.IO.Path.GetDirectoryName(sfd.FileName)
+                };
                 DisplayFileName();
                 ccMain.Content = new MainViewControl();
             }
+        }
+
+        /// <summary>
+        /// Handles the Add event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_Add(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ccMain?.Content is MainViewControl;
+        }
+
+        /// <summary>
+        /// Handles the Delete event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_Delete(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (ccMain?.Content as MainViewControl)?.ItemSelected ?? false;
         }
     }
 }

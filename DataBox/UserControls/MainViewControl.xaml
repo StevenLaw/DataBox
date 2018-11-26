@@ -67,7 +67,6 @@
                                         </ListView>
                                     </Expander.Content>
                                 </Expander>
-                                <TextBlock Text="{Binding Path=Tags}"/>
                                 <ListView BorderThickness="0" ItemsSource="{Binding Path=Tags}">
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
