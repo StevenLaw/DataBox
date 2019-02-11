@@ -84,19 +84,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListView.Resources>
-                    <!--<ListView.ItemTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <TextBlock Text="Name: "/>
-                                <TextBlock Text="{Binding Path=Name}"/>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>-->
-                    <!--<ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
-                        </GridView>
-                    </ListView.View>-->
                 </ListView>
             </ScrollViewer>
         </Grid>

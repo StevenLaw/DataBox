@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\GlobalData.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PasswordDialogue.xaml.cs">
       <DependentUpon>PasswordDialogue.xaml</DependentUpon>

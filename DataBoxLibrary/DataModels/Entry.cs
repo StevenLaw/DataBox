@@ -36,19 +36,46 @@ namespace DataBoxLibrary.DataModels
         /// Adds the tag.
         /// </summary>
         /// <param name="tag">The tag.</param>
-        public void AddTag(Tag tag)
+        public bool AddTag(Tag tag)
         {
-            _tags.Add(tag);
+            return _tags.Add(tag);
         }
 
         /// <summary>
         /// Adds the tags.
         /// </summary>
         /// <param name="tags">The tags.</param>
-        public void AddTags(IEnumerable<Tag> tags)
+        public int AddTags(IEnumerable<Tag> tags)
         {
+            int count = 0;
             foreach (Tag tag in tags)
-                _tags.Add(tag);
+                if (_tags.Add(tag))
+                    count++;
+            return count;
+        }
+
+        /// <summary>
+        /// Removes the tag.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <returns>
+        ///   <c>true</c> if the <see cref="Tag" /> was successfully removed, <c>false</c> otherwise.
+        /// </returns>
+        public bool RemoveTag(Tag tag)
+        {
+            return _tags.Remove(tag);
+        }
+
+        /// <summary>
+        /// Removes the tag where.
+        /// </summary>
+        /// <param name="where">The where.</param>
+        /// <returns>
+        /// The number of items removed.
+        /// </returns>
+        public int RemoveTagWhere(Predicate<Tag> where)
+        {
+            return _tags.RemoveWhere(where);
         }
     }
 }

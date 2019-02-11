@@ -2,19 +2,10 @@
 using DataBoxLibrary.DataModels;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DataBox.Core;
 
 namespace DataBox
 {
@@ -30,20 +21,11 @@ namespace DataBox
         /// <value>
         /// The databox.
         /// </value>
-        public DataBoxLibrary.DataBox Databox { get; set; } = null;
+        //public DataBoxLibrary.DataBox Databox { get; set; } = null;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //LinkEntry entry1 = new LinkEntry("Test entry", "This is a test entry.");
-            //entry1.Links.Add(new LinkItem("Test Link", "http://Google.com"));
-            //entry1.Links.Add(new LinkItem("This is another link", "http://stackoverflow.com"));
-            //sbMainView.Children.Add(new LinkItemControl(entry1));
-
-            //LinkEntry entry2 = new LinkEntry("Another entry", "This is another entry.");
-            //entry2.Links.Add(new LinkItem("Another Link", "http://youtube.com"));
-            //sbMainView.Children.Add(new LinkItemControl(entry2));
         }
 
         /// <summary>
@@ -64,94 +46,34 @@ namespace DataBox
         /// </summary>
         private void DisplayFileName()
         {
-            if (Databox == null)
+            if (GlobalData.Databox == null)
                 lblStatus.Content = string.Empty;
             else
             {
-                if (miShowFullPath.IsChecked == true)
-                    lblStatus.Content = Databox.Path + Databox.Filename;
+                if (string.IsNullOrWhiteSpace(GlobalData.Databox.Filename))
+                    lblStatus.Content = "*Untitled*";
+                else if (miShowFullPath.IsChecked == true)
+                    lblStatus.Content = GlobalData.Databox.Path + GlobalData.Databox.Filename;
                 else
-                    lblStatus.Content = Databox.Filename;
+                    lblStatus.Content = GlobalData.Databox.Filename;
             }
         }
 
-        ///// <summary>
-        ///// Loads the entries.
-        ///// </summary>
-        //public void LoadEntries()
-        //{
-        //    if (Databox == null)
-        //        MessageBox.Show("File is not a Data Box file.",
-        //            "The selected file was not the correct format.",
-        //            MessageBoxButton.OK,
-        //            MessageBoxImage.Warning);
-        //    else
-        //    {
-        //        ccMain.Content = new MainViewControl(Databox.Entries);
-        //        //foreach (Entry entry in Databox.Entries)
-        //        //{
-        //        //    LinkEntry lEntry = entry as LinkEntry;
-        //        //    if (lEntry != null)
-        //        //        sbMainView.Children.Add(new LinkItemControl(ref lEntry));
-        //        //}
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Clears the entries.
-        ///// </summary>
-        //public void ClearEntries()
-        //{
-        //    Databox = null;
-        //    if (ccMain.Content is MainViewControl control)
-        //    {
-        //        control.ClearEntries();
-        //    }
-        //    //sbMainView.Children.Clear();
-        //}
-
-        ///// <summary>
-        ///// Loads the tags.
-        ///// </summary>
-        //public void LoadTags()
-        //{
-        //    if (Databox != null)
-        //    {
-        //        ClearTags();
-        //        foreach (Tag tag in Databox.GetTagsByCategory(""))
-        //        {
-        //            TreeViewItem tagItem = new TreeViewItem();
-        //            tagItem.Header = tag.Name;
-        //            treeTags.Items.Add(tagItem);
-        //        }
-        //        foreach (string cat in Databox.Categories)
-        //        {
-        //            var cats = Databox.GetTagsByCategory(cat);
-        //            TreeViewItem category = new TreeViewItem();
-        //            category.Header = cat;
-        //            foreach (Tag tag in cats)
-        //            {
-        //                TreeViewItem tagItem = new TreeViewItem();
-        //                tagItem.Header = tag.Name;
-        //                category.Items.Add(tagItem);
-        //            }
-        //            treeTags.Items.Add(category);
-        //        }
-                
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Clears the tags.
-        ///// </summary>
-        //public void ClearTags()
-        //{
-        //    if (ccMain.Content is MainViewControl control)
-        //    {
-        //        control.ClearTags();
-        //    }
-        //    //treeTags.Items.Clear();
-        //}
+        private void SaveAs()
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Databox file (*.dbx)|*.dbx|All files|*.*"
+            };
+            if (sfd.ShowDialog(this) == true)
+            {
+                GlobalData.Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
+                GlobalData.Databox.Filename = System.IO.Path.GetFileName(sfd.FileName);
+                GlobalData.Databox.Save();
+                DisplayFileName();
+                SetChangeMade(false);
+            }
+        }
 
         /// <summary>
         /// Handles the Open event of the CommandBinding control.
@@ -171,7 +93,7 @@ namespace DataBox
                     {
                         try
                         {
-                            Databox = DataBoxLibrary.DataBox.Open(ofd.FileName, pd.Password);
+                            GlobalData.Databox = DataBoxLibrary.DataBox.Open(ofd.FileName, pd.Password);
                             DisplayFileName();
                             SetChangeMade(false);
                         }
@@ -186,7 +108,7 @@ namespace DataBox
                 }
                 else
                 {
-                    Databox = DataBoxLibrary.DataBox.Open(ofd.FileName);
+                    GlobalData.Databox = DataBoxLibrary.DataBox.Open(ofd.FileName);
                     DisplayFileName();
                     SetChangeMade(false);
                 }
@@ -213,7 +135,7 @@ namespace DataBox
         /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_CanExecute_Close(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = Databox != null;
+            e.CanExecute = GlobalData.Databox != null;
         }
 
         /// <summary>
@@ -223,8 +145,13 @@ namespace DataBox
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Save(object sender, ExecutedRoutedEventArgs e)
         {
-            Databox.Save();
-            SetChangeMade(false);
+            if (string.IsNullOrWhiteSpace(GlobalData.Databox.Filename))
+                SaveAs();
+            else
+            {
+                GlobalData.Databox.Save();
+                SetChangeMade(false);
+            }
         }
 
         /// <summary>
@@ -244,18 +171,7 @@ namespace DataBox
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_SaveAs(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = "Databox file (*.dbx)|*.dbx|All files|*.*"
-            };
-            if (sfd.ShowDialog(this) == true)
-            {
-                Databox.Path = System.IO.Path.GetDirectoryName(sfd.FileName);
-                Databox.Filename = System.IO.Path.GetFileName(sfd.FileName);
-                Databox.Save();
-                DisplayFileName();
-                SetChangeMade(false);
-            }
+            SaveAs();
         }
 
         /// <summary>
@@ -265,7 +181,7 @@ namespace DataBox
         /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_CanExecute_SaveAs(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = Databox != null;
+            e.CanExecute = GlobalData.Databox != null;
         }
 
         /// <summary>
@@ -373,21 +289,10 @@ namespace DataBox
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = "Databox file (*.dbx)|*.dbx|All files|*.*"
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                //ClearEntries();
-                //ClearTags();
-                Databox = new DataBoxLibrary.DataBox(System.IO.Path.GetFileName(sfd.FileName))
-                {
-                    Path = System.IO.Path.GetDirectoryName(sfd.FileName)
-                };
-                DisplayFileName();
-                ccMain.Content = new MainViewControl();
-            }
+            GlobalData.Databox = new DataBoxLibrary.DataBox();
+            DisplayFileName();
+            SetChangeMade(true);
+            ccMain.Content = new MainViewControl();
         }
 
         /// <summary>

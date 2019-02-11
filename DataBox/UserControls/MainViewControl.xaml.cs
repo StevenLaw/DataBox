@@ -1,4 +1,5 @@
-﻿using DataBox.ViewModels;
+﻿using DataBox.Core;
+using DataBox.ViewModels;
 using DataBoxLibrary.DataModels;
 using System;
 using System.Collections.Generic;
@@ -30,13 +31,10 @@ namespace DataBox.UserControls
 
         protected DataBoxLibrary.DataBox Databox
         {
-            get => (Application.Current.MainWindow as MainWindow)?.Databox;
+            get => GlobalData.Databox;
             set
             {
-                if (Application.Current.MainWindow is MainWindow mw)
-                {
-                    mw.Databox = value;
-                }
+                GlobalData.Databox = value;
             }
         }
 

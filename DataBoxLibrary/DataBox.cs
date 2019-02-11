@@ -18,15 +18,36 @@ namespace DataBoxLibrary
     [DataContract]
     public class DataBox
     {
+        /// <summary>
+        /// The path
+        /// </summary>
         private string _path = string.Empty;
 
+        /// <summary>
+        /// The tag list
+        /// </summary>
         [DataMember]
         protected HashSet<Tag> _tagList = new HashSet<Tag>();
+        /// <summary>
+        /// The entries
+        /// </summary>
         [DataMember]
         protected List<Entry> _entries = new List<Entry>();
 
+        /// <summary>
+        /// Gets or sets the filename.
+        /// </summary>
+        /// <value>
+        /// The filename.
+        /// </value>
         public string Filename { get; set; }
 
+        /// <summary>
+        /// Gets or sets the path.
+        /// </summary>
+        /// <value>
+        /// The path.
+        /// </value>
         public string Path 
         { 
             get
@@ -41,6 +62,12 @@ namespace DataBoxLibrary
             }
         }
 
+        /// <summary>
+        /// Gets the tag list.
+        /// </summary>
+        /// <value>
+        /// The tag list.
+        /// </value>
         public HashSet<Tag> TagList 
         {
             get
@@ -48,6 +75,12 @@ namespace DataBoxLibrary
                 return _tagList;
             }
         }
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        /// <value>
+        /// The categories.
+        /// </value>
         public HashSet<string> Categories
         {
             get
@@ -55,6 +88,12 @@ namespace DataBoxLibrary
                 return new HashSet<string>(_tagList.Select(x => x.Category).Distinct().Where(x => !string.IsNullOrWhiteSpace(x)));
             }
         }
+        /// <summary>
+        /// Gets the entries.
+        /// </summary>
+        /// <value>
+        /// The entries.
+        /// </value>
         public List<Entry> Entries 
         { 
             get
@@ -66,10 +105,15 @@ namespace DataBoxLibrary
         /// <summary>
         /// Initializes a new instance of the <see cref="DataBox"/> class.
         /// </summary>
+        public DataBox() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataBox"/> class.
+        /// </summary>
         /// <param name="filename">The filename.</param>
         public DataBox(string filename)
         {
-            this.Filename = filename;
+            Filename = filename;
         }
 
         #region Exists
@@ -108,7 +152,7 @@ namespace DataBoxLibrary
         public Tag NewTag(string name, string category = "")
         {
             if (TagExists(name, category))
-                return null;
+                return TagList.First(x => x.Name == name && x.Category == category);
             else
             {
                 Tag tag = new Tag(name, category);
@@ -218,6 +262,31 @@ namespace DataBoxLibrary
         }
 
         #endregion
+
+        /// <summary>
+        /// Synchronizes the entry tags.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="tagStrings">The tag strings.</param>
+        public void SyncEntryTags(Entry entry, IEnumerable<string> tagStrings)
+        {
+            entry.RemoveTagWhere(x => !tagStrings.Contains(x.Display));
+            var newTags = tagStrings.Where(x => !entry.Tags.Any(y => y.Display == x));
+            foreach (string tagString in newTags)
+            {
+                string[] split = tagString.Split(':');
+                if (split.Count() == 1)
+                {
+                    Tag tag = NewTag(tagString);
+                    entry.AddTag(tag);
+                }
+                else if (split.Count() > 1)
+                {
+                    Tag tag = new Tag(string.Join(":", split.Skip(1)), split[0]);
+                    entry.AddTag(tag);
+                }
+            }
+        }
 
         #region Serialization
 
@@ -346,7 +415,8 @@ namespace DataBoxLibrary
                         try
                         {
                             entry.ExtractWithPassword(ms, password);
-                        } catch (BadPasswordException e)
+                        }
+                        catch (BadPasswordException e)
                         {
                             throw new IncorrectPasswordException(e.Message);
                         }
@@ -366,15 +436,15 @@ namespace DataBoxLibrary
         #endregion
     }
 
-        /// <summary>
-        /// An <see cref="Exception"/> to indicate an incorrect password without forcing the parent to load DotNetZip.
-        /// </summary>
-        public class IncorrectPasswordException : Exception
-        {
-            public IncorrectPasswordException() { }
+    /// <summary>
+    /// An <see cref="Exception"/> to indicate an incorrect password without forcing the parent to load DotNetZip.
+    /// </summary>
+    public class IncorrectPasswordException : Exception
+    {
+        public IncorrectPasswordException() { }
 
-            public IncorrectPasswordException(string message) : base(message) { }
+        public IncorrectPasswordException(string message) : base(message) { }
 
-            public IncorrectPasswordException(string message, Exception inner) : base(message, inner) { }
-        }
+        public IncorrectPasswordException(string message, Exception inner) : base(message, inner) { }
+    }
 }

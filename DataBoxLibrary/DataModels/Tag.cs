@@ -18,7 +18,6 @@ namespace DataBoxLibrary.DataModels
         [DataMember]
         private string _category;
         //[DataMember]
-        //private string _subcategory;
 
         /// <summary>
         /// Gets the name.
@@ -46,13 +45,6 @@ namespace DataBoxLibrary.DataModels
                 return _category;
             }
         }
-        //public string Subcategory 
-        //{ 
-        //    get
-        //    {
-        //        return _subcategory;
-        //    }
-        //}
 
         /// <summary>
         /// Gets the display.

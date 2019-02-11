@@ -52,9 +52,12 @@ namespace DataBox.ViewModels
                 }
                 Add(viewTagCategory);
             }
-            foreach (Tag tag in groupedTags.FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Name))
+            if (groupedTags.Any(x => string.IsNullOrWhiteSpace(x.Key)))
             {
-                Add(new ViewTag(tag.Name));
+                foreach (Tag tag in groupedTags.First(x => string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Name))
+                {
+                    Add(new ViewTag(tag.Name));
+                }
             }
         }
 
