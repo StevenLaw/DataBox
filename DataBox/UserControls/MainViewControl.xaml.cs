@@ -66,6 +66,18 @@ namespace DataBox.UserControls
             Load();
         }
 
+        public Entry DeleteSelected()
+        {
+            if (ItemSelected)
+            {
+                if (lvMain.SelectedItem is Entry entry && model.Entries.Remove(entry))
+                {
+                    return entry;
+                }
+            }
+            return null;
+        }
+
         /// <summary>Handles the RequestNavigate event of the Hyperlink control.</summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RequestNavigateEventArgs"/> instance containing the event data.</param>
@@ -88,6 +100,36 @@ namespace DataBox.UserControls
                         MessageBoxButton.OK, 
                         MessageBoxImage.Error);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the SelectedItemChanged event of the TreeTags control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedPropertyChangedEventArgs{System.Object}"/> instance containing the event data.</param>
+        private void TreeTags_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            CollectionViewSource.GetDefaultView(lvMain.ItemsSource).Refresh();
+        }
+
+        /// <summary>
+        /// Handles the Filter event of the CollectionViewSource control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="FilterEventArgs"/> instance containing the event data.</param>
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (e.Item is Entry entry)
+            {
+                if (treeTags.SelectedItem == null)
+                    e.Accepted = true;
+                else if (treeTags.SelectedItem is ViewTag tag && entry.Tags.Contains(tag.Tag))
+                    e.Accepted = true;
+                else if (treeTags.SelectedItem is ViewTagCategory category && entry.Tags.Any(x => x.Category == category.Name))
+                    e.Accepted = true;
+                else
+                    e.Accepted = false;
             }
         }
     }

@@ -48,7 +48,7 @@ namespace DataBox.ViewModels
                 ViewTagCategory viewTagCategory = new ViewTagCategory(category.Key);
                 foreach (Tag tag in category.OrderBy(x => x.Name))
                 {
-                    viewTagCategory.Tags.Add(new ViewTag(tag.Name));
+                    viewTagCategory.Tags.Add(new ViewTag(tag));
                 }
                 Add(viewTagCategory);
             }
@@ -56,7 +56,7 @@ namespace DataBox.ViewModels
             {
                 foreach (Tag tag in groupedTags.First(x => string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Name))
                 {
-                    Add(new ViewTag(tag.Name));
+                    Add(new ViewTag(tag));
                 }
             }
         }

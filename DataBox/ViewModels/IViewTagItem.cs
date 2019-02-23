@@ -9,6 +9,6 @@
         /// </para>
         /// </summary>
         /// <value>The name.</value>
-        string Name { get; set; }
+        string Name { get; }
     }
 }

@@ -7,7 +7,7 @@ namespace DataBox.ViewModels
     {
         /// <summary>Gets or sets the name.</summary>
         /// <value>The name.</value>
-        public string Name { get; set; }
+        public string Name { get; }
         /// <summary>Gets or sets the tags.</summary>
         /// <value>The tags.</value>
         public List<ViewTag> Tags { get; set; } = new List<ViewTag>();

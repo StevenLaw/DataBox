@@ -15,14 +15,10 @@ namespace DataBox
     public partial class MainWindow : Window
     {
         private bool changeMade = false;
-        /// <summary>
-        /// Gets or sets the databox.
-        /// </summary>
-        /// <value>
-        /// The databox.
-        /// </value>
-        //public DataBoxLibrary.DataBox Databox { get; set; } = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -59,6 +55,9 @@ namespace DataBox
             }
         }
 
+        /// <summary>
+        /// Saves as.
+        /// </summary>
         private void SaveAs()
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -233,7 +232,16 @@ namespace DataBox
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
         private void CommandBinding_Delete(object sender, ExecutedRoutedEventArgs e)
-        { }
+        {
+            if (ccMain?.Content is MainViewControl mainView)
+            {
+                Entry entry = mainView.DeleteSelected();
+                if (entry == null)
+                    MessageBox.Show(this, "Error", "Unable to delete item", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                    GlobalData.Databox.Entries.Remove(entry);
+            }
+        }
 
         /// <summary>
         /// Handles the Cut event of the CommandBinding control.

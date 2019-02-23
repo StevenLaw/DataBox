@@ -21,6 +21,10 @@ namespace DataBox.ViewModels
             Entries.Add(entry);
         }
 
+        /// <summary>
+        /// Sets the entries.
+        /// </summary>
+        /// <param name="entries">The entries.</param>
         public void SetEntries(IEnumerable<Entry> entries)
         {
             foreach (Entry entry in entries)

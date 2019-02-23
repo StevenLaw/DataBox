@@ -282,7 +282,7 @@ namespace DataBoxLibrary
                 }
                 else if (split.Count() > 1)
                 {
-                    Tag tag = new Tag(string.Join(":", split.Skip(1)), split[0]);
+                    Tag tag = NewTag(string.Join(":", split.Skip(1)), split[0]);
                     entry.AddTag(tag);
                 }
             }
