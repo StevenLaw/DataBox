@@ -96,6 +96,6 @@
             <Separator/>
             <Label x:Name="lblStatus" Content=""/>
         </StatusBar>
-        <ContentControl x:Name="ccMain"/>
+        <ContentControl x:Name="ccMain" />
     </DockPanel>
 </Window>

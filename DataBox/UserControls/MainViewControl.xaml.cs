@@ -132,5 +132,15 @@ namespace DataBox.UserControls
                     e.Accepted = false;
             }
         }
+
+        /// <summary>
+        /// Handles the SizeChanged event of the GridMain control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
+        private void GridMain_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            colTags.MaxWidth = gridMain.ActualWidth / 2;
+        }
     }
 }
