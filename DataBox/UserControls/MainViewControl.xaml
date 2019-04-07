@@ -34,10 +34,10 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type models:ViewTagCategory}"
                                               ItemsSource="{Binding Tags}">
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Display}"/>
                 </HierarchicalDataTemplate>
                 <DataTemplate DataType="{x:Type models:ViewTag}">
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Display}"/>
                 </DataTemplate>
             </TreeView.Resources>
         </TreeView>

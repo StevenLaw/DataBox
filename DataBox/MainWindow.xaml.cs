@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DataBox.Core;
+using System.Collections.Generic;
 
 namespace DataBox
 {
@@ -304,6 +305,27 @@ namespace DataBox
         }
 
         /// <summary>
+        /// Handles the ClearDeadTags event of the CommandBinding control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_ClearDeadTags(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ccMain.Content is MainViewControl mvc)
+            {
+                var dead = new List<Tag>();
+                foreach (Tag tag in GlobalData.Databox.TagList)
+                {
+                    if (GlobalData.Databox.EntryCountByTag(tag) == 0)
+                        dead.Add(tag);
+                }
+                foreach (Tag tag in dead)
+                    GlobalData.Databox.TagList.Remove(tag);
+                mvc.Load();
+            }
+        }
+
+        /// <summary>
         /// Handles the Add event of the CommandBinding_CanExecute control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -321,6 +343,16 @@ namespace DataBox
         private void CommandBinding_CanExecute_Delete(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = (ccMain?.Content as MainViewControl)?.ItemSelected ?? false;
+        }
+
+        /// <summary>
+        /// Handles the ClearDeadTags event of the CommandBinding_CanExecute control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="CanExecuteRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_CanExecute_ClearDeadTags(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ccMain?.Content is MainViewControl;
         }
     }
 }

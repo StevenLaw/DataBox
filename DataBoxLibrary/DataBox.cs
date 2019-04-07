@@ -253,6 +253,47 @@ namespace DataBoxLibrary
             return _entries.Where(x => x.Tags.Any(y => y.Category == tagCategory)).ToArray();
         }
 
+        /// <summary>
+        /// Entries the count by tag.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <returns>
+        /// the count by tag.
+        /// </returns>
+        public int EntryCountByTag(Tag tag)
+        {
+            return _entries.Where(x => x.Tags.Any(y => y == tag)).Count();
+        }
+
+        /// <summary>
+        /// Entries the name of the count by tag.
+        /// </summary>
+        /// <param name="tagName">Name of the tag.</param>
+        /// <returns>
+        /// the name of the count by tag.
+        /// </returns>
+        public int EntryCountByTagName(string tagName)
+        {
+            return _entries.Where(x => x.Tags.Any(y => y.Name == tagName)).Count();
+        }
+
+        /// <summary>
+        /// Entries the count by tag category.
+        /// </summary>
+        /// <param name="tagCategory">The tag category.</param>
+        /// <returns>
+        /// the count by tag category.
+        /// </returns>
+        public int EntryCountByTagCategory(string tagCategory)
+        {
+            return _entries.Where(x => x.Tags.Any(y => y.Category == tagCategory)).Count();
+        }
+
+        /// <summary>
+        /// Gets the entries by link tag.
+        /// </summary>
+        /// <param name="linkTag">The link tag.</param>
+        /// <returns></returns>
         public LinkEntry[] GetEntriesByLinkTag(Tag linkTag)
         {
             return (from e in _entries

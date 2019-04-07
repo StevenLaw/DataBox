@@ -1,4 +1,5 @@
-﻿using DataBoxLibrary.DataModels;
+﻿using DataBox.Core;
+using DataBoxLibrary.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,10 +46,16 @@ namespace DataBox.ViewModels
             var groupedTags = _tags.GroupBy(x => x.Category);
             foreach (var category in groupedTags.Where(x => !string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Key))
             {
-                ViewTagCategory viewTagCategory = new ViewTagCategory(category.Key);
+                int catCount = 0;
+                if (GlobalData.Databox != null)
+                    catCount = GlobalData.Databox.EntryCountByTagCategory(category.Key);
+                ViewTagCategory viewTagCategory = new ViewTagCategory(category.Key, catCount);
                 foreach (Tag tag in category.OrderBy(x => x.Name))
                 {
-                    viewTagCategory.Tags.Add(new ViewTag(tag));
+                    int count = 0;
+                    if (GlobalData.Databox != null)
+                        count = GlobalData.Databox.EntryCountByTag(tag);
+                    viewTagCategory.Tags.Add(new ViewTag(tag, count));
                 }
                 Add(viewTagCategory);
             }
@@ -56,7 +63,10 @@ namespace DataBox.ViewModels
             {
                 foreach (Tag tag in groupedTags.First(x => string.IsNullOrWhiteSpace(x.Key)).OrderBy(x => x.Name))
                 {
-                    Add(new ViewTag(tag));
+                    int count = 0;
+                    if (GlobalData.Databox != null)
+                        count = GlobalData.Databox.EntryCountByTag(tag);
+                    Add(new ViewTag(tag, count));
                 }
             }
         }

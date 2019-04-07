@@ -40,7 +40,7 @@ namespace DataBox.UserControls
 
 
         /// <summary>Loads this instance.</summary>
-        private void Load()
+        public void Load()
         {
             if (Databox == null)
                 MessageBox.Show(Application.Current.MainWindow,

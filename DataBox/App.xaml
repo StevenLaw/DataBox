@@ -3,5 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <BitmapImage x:Key="TagBoxIcon" UriSource="/Resources/TagBox.ico"/>
     </Application.Resources>
 </Application>
