@@ -1,0 +1,59 @@
+﻿<Window x:Class="DataBox.Windows.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataBox.Windows"
+        mc:Ignorable="d"
+        Title="AboutWindow" 
+        ResizeMode="NoResize" 
+        SizeToContent="WidthAndHeight"
+        Icon="{StaticResource TagBoxIcon}">
+    <Window.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style x:Key="title" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DarkSlateBlue"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="80"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition MinWidth="200" Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label x:Name="lblTitle" Style="{StaticResource title}" Grid.ColumnSpan="2" Grid.Row="0"/>
+
+        <Image Source="{StaticResource TagBoxIcon}" Grid.Column="0" Grid.Row="1"/>
+
+        <TextBlock x:Name="txtInfo" Grid.Column="1" Grid.Row="1"/>
+        
+        <Button x:Name="btnOk" 
+                IsDefault="True" 
+                IsCancel="True" 
+                Content="Ok"
+                HorizontalAlignment="Right"
+                Grid.ColumnSpan="2"
+                Grid.Row="2" 
+                Click="BtnOk_Click"/>
+    </Grid>
+</Window>

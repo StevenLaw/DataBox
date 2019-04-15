@@ -480,6 +480,7 @@ namespace DataBoxLibrary
     /// <summary>
     /// An <see cref="Exception"/> to indicate an incorrect password without forcing the parent to load DotNetZip.
     /// </summary>
+    [Serializable]
     public class IncorrectPasswordException : Exception
     {
         public IncorrectPasswordException() { }

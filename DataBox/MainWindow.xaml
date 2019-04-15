@@ -10,6 +10,7 @@
         <RoutedUICommand x:Key="CommandBinding_Exit" Text="Exit"/>
         <RoutedUICommand x:Key="CommandBinding_Add" Text="Add"/>
         <RoutedUICommand x:Key="CommandBinding_ClearDeadTags" Text="Clear dead tags"/>
+        <RoutedUICommand x:Key="CommandBinding_About" Text="About"/>
         <Style x:Key="IsEnabledOpacity" TargetType="{x:Type Image}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
@@ -32,6 +33,7 @@
         <CommandBinding Command="{StaticResource CommandBinding_Exit}" Executed="CommandBinding_Exit" />
         <CommandBinding Command="{StaticResource CommandBinding_Add}" Executed="CommandBinding_Add" CanExecute="CommandBinding_CanExecute_Add" />
         <CommandBinding Command="{StaticResource CommandBinding_ClearDeadTags}" Executed="CommandBinding_ClearDeadTags" CanExecute="CommandBinding_CanExecute_ClearDeadTags"/>
+        <CommandBinding Command="{StaticResource CommandBinding_About}" Executed="CommandBinding_About"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="W" Modifiers="Ctrl" Command="Close"/>
@@ -70,7 +72,7 @@
                     <MenuItem x:Name="miShowFullPath" Header="Show Full Path" IsCheckable="True" IsChecked="True" Click="miShowFullPath_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_About"/>
+                    <MenuItem Header="_About" Command="{StaticResource CommandBinding_About}"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray>

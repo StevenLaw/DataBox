@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DataBox.Core;
 using System.Collections.Generic;
+using DataBox.Windows;
 
 namespace DataBox
 {
@@ -353,6 +354,17 @@ namespace DataBox
         private void CommandBinding_CanExecute_ClearDeadTags(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = ccMain?.Content is MainViewControl;
+        }
+
+        /// <summary>
+        /// Handles the About event of the CommandBinding_About control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExecutedRoutedEventArgs"/> instance containing the event data.</param>
+        private void CommandBinding_About(object sender, ExecutedRoutedEventArgs e)
+        {
+            AboutWindow about = new AboutWindow { Owner = this };
+            about.ShowDialog();
         }
     }
 }
